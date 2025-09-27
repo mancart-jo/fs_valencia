@@ -10,10 +10,14 @@ import Footer from "./components/Footer";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 
+import { AuthProvider } from "./context/AuthProvider";
+import { PrivateRoute } from "./context/PrivateRoute";
+
 function App() {
   return (
     <>
       <Router>
+        <AuthProvider>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,10 +25,23 @@ function App() {
           <Route path="/products/:product_id" element={<ProductDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route 
+          path="/profile"
+          element={
+            <PrivateRoute>
+            <Profile />
+            </PrivateRoute>
+          }
+          />
+          <Route path="/cart" 
+          element={
+            <PrivateRoute>
+            <Cart />
+            </PrivateRoute>
+          } />
         </Routes>
         <Footer />
+        </AuthProvider>
       </Router>
     </>
   );
